@@ -1,0 +1,34 @@
+schema-version: 1.0
+
+type: builder
+
+
+const:
+  srcDir: /usr/src
+  exportDir: /opt/libpcap
+
+
+var:
+  version: 1.10.1
+
+
+dependencies:
+  - https://github.com/xbee-linux/flex.git
+  - https://github.com/xbee-linux/m4.git
+  - https://github.com/xbee-linux/bison.git
+
+provision:
+  - url:
+      from: https://github.com/the-tcpdump-group/libpcap/archive/refs/tags/libpcap-{% version %}.tar.gz
+      todir: "{% srcDir %}"
+
+build:
+  - shell:
+      cmds:
+        - ./configure
+        - make
+        - make install DESTDIR={% exportDir %}
+        - rm "{% exportDir %}/usr/local/lib/libpcap.a"
+      directory: "{% srcDir %}/libpcap-libpcap-{% version %}"
+  - export: "{% exportDir %}"
+

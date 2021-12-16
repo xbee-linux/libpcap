@@ -1,0 +1,22 @@
+schema-version: 1.0
+
+description: |
+  a system-independent interface for user-level packet capture
+  bin: pcap-config
+  lib: libpcap.so
+
+
+builder:
+  origin: ./libpcap-builder
+  var:
+    version: "{% version %}"
+
+
+var:
+  version: 1.10.1
+
+
+provision:
+  - copy:
+      builder: libpcap
+      todir: /
